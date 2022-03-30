@@ -1,23 +1,26 @@
-import React, { useState, useEffect} from "react"
-import axios from "axios";
+import React, { useState,useEffect} from "react"
+import { useDispatch, useSelector } from 'react-redux';
+import { getGreetings } from '../redux/actions/greetings';
 
 const Greeting = () => {
-  const [ greetings, setGreetings ] = useState([]);
-  const greeting = greetings[Math.floor(Math.random()*greetings.length)];
+  const greetings = useSelector((state) => state.greetings);
+  const greeting = greetings.length ? greetings[0][Math.floor(Math.random()*greetings[0].length)] : '';
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get('api/v1/greetings.json')
-    .then(resp => {
-      setGreetings(resp.data.data);
-    })
-    .catch(resp => console.log(resp))
-    
-  }, [greetings.length]);
+    if (!greetings.length) {
+      dispatch(getGreetings());
+    }
+  }, [greetings]);
 
   return (
     <div>
     {
-      greeting? greeting.attributes.greeting : "Loading..."
+      greeting ? (
+        greeting.attributes.greeting
+      ) : (
+        <div>Loading...</div>
+      )
     }
     </div>
   );

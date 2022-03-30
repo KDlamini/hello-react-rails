@@ -7,11 +7,13 @@ import App from '../components/App'
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Router>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </Router>,
+    <React.StrictMode>
+      <Router>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </Router>
+    </React.StrictMode>,
     document.body.appendChild(document.createElement('div')),
   )
 })
